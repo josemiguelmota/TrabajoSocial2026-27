@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="bahia">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi proyecto de TFG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   ESTILOS. No hace falta tocar nada aquí: el aspecto se cambia con la
+   opción "tema" del bloque CONFIG (al final del archivo).
+   ===================================================================== */
+:root{
+  --f-titulo:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --f-texto:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --texto-sobre-acento:#1a1405;
+}
+html[data-tema="bahia"]{
+  --fondo:#F4F7F8; --superficie:#FFFFFF; --banda:#E4EDF0; --texto:#14232B; --suave:#4B5D66;
+  --linea:#CFDBDF; --principal:#1B4459; --principal-claro:#8CC3D9; --acento:#E3A92B; --sobre-principal:#FFFFFF;
+}
+html[data-tema="sierra"]{
+  --fondo:#F5F6F0; --superficie:#FFFFFF; --banda:#E9ECDF; --texto:#1E2618; --suave:#535D49;
+  --linea:#D6DACB; --principal:#3D5A2C; --principal-claro:#A9C98D; --acento:#D98E3F; --sobre-principal:#FFFFFF;
+}
+html[data-tema="violeta"]{
+  --fondo:#F7F5FA; --superficie:#FFFFFF; --banda:#ECE6F4; --texto:#211A2D; --suave:#5A5068;
+  --linea:#DDD5E8; --principal:#553A85; --principal-claro:#BFA6E8; --acento:#35AE95; --sobre-principal:#FFFFFF;
+}
+html[data-tema="grafito"]{
+  --fondo:#F3F3F2; --superficie:#FFFFFF; --banda:#E7E7E5; --texto:#1C1C1C; --suave:#555553;
+  --linea:#D4D4D1; --principal:#2A2A2A; --principal-claro:#DADAD6; --acento:#9AD0EC; --sobre-principal:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){
+  html[data-tema]{
+    --fondo:#10171B; --superficie:#172127; --banda:#1D2A31; --texto:#E7EDEF; --suave:#A7B6BD;
+    --linea:#2D3D45; --principal:var(--principal-claro); --sobre-principal:#10171B;
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation:none !important;transition:none !important}
+}
+body{
+  margin:0;background:var(--fondo);color:var(--texto);
+  font-family:var(--f-texto);font-size:1.0625rem;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--f-titulo);line-height:1.1;margin:0 0 .6em;letter-spacing:-.01em}
+h3{font-size:1.3rem;font-weight:700}
+a{color:var(--principal)}
+:focus-visible{outline:3px solid var(--acento);outline-offset:3px}
+img{max-width:100%}
+.envoltura{width:min(72rem, 100% - 2.5rem);margin-inline:auto}
+.oculto{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Avisos */
+#aviso-error{background:#8F1D1D;color:#fff;padding:1rem 1.25rem;line-height:1.5}
+.aviso-ejemplo{background:var(--acento);color:var(--texto-sobre-acento);padding:.6rem 1.25rem;font-size:.95rem;text-align:center}
+
+/* Cabecera */
+.cabecera{position:sticky;top:0;z-index:20;background:var(--superficie);border-bottom:1px solid var(--linea)}
+.cabecera .envoltura{display:flex;align-items:center;gap:1.5rem;min-height:3.75rem}
+.marca{font-family:var(--f-titulo);font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--texto);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:38%}
+.cabecera nav{flex:1;overflow-x:auto}
+.cabecera ul{display:flex;gap:.2rem;list-style:none;margin:0;padding:0;justify-content:flex-end}
+.cabecera nav a{display:block;padding:.45rem .75rem;border-radius:999px;text-decoration:none;color:var(--suave);font-size:.95rem;white-space:nowrap}
+.cabecera nav a:hover{background:var(--banda);color:var(--texto)}
+@media (max-width:760px){
+  .cabecera .envoltura{flex-direction:column;align-items:flex-start;gap:.1rem;padding:.55rem 0}
+  .marca{max-width:100%}
+  .cabecera nav{width:100%}
+  .cabecera ul{justify-content:flex-start}
+  .cabecera nav a{padding:.35rem .6rem}
+}
+
+/* Portada */
+.portada{background:var(--principal);color:var(--sobre-principal);padding:clamp(3rem,8vw,6rem) 0 clamp(3rem,7vw,5rem)}
+.portada-rejilla{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:end}
+@media (max-width:860px){.portada-rejilla{grid-template-columns:1fr}}
+.portada-contexto{margin:0 0 1.25rem;opacity:.85}
+.portada h1{font-size:clamp(2.5rem,6.2vw,4.75rem);font-weight:800;line-height:1.02;letter-spacing:-.028em;max-width:16ch;margin-bottom:.4em}
+.portada-sub{font-size:clamp(1.15rem,2vw,1.35rem);line-height:1.45;max-width:40ch;opacity:.92;margin:0 0 2rem}
+.ficha{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.25rem;margin:0}
+.ficha dt{opacity:.75}
+.ficha dd{margin:0;font-weight:700}
+.portada-chat{
+  border-radius:20px;padding:1.5rem;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);
+  background:color-mix(in srgb, var(--sobre-principal) 9%, transparent);
+  border-color:color-mix(in srgb, var(--sobre-principal) 28%, transparent);
+}
+.portada-chat-titulo{font-family:var(--f-titulo);font-size:1.45rem;font-weight:700;line-height:1.15;margin:0 0 .4rem}
+.portada-chat-texto{margin:0 0 1.1rem;opacity:.9;font-size:.98rem}
+
+/* Botones tipo "chip" */
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{font:inherit;font-size:.95rem;line-height:1.3;text-align:left;cursor:pointer;
+  border:1px solid var(--linea);background:var(--superficie);color:var(--texto);padding:.5rem .85rem;border-radius:999px}
+.chip:hover{border-color:var(--principal)}
+.chip-acento{background:var(--acento);border-color:var(--acento);color:var(--texto-sobre-acento);font-weight:700}
+.chip-acento:hover{border-color:var(--sobre-principal)}
+
+/* Secciones */
+.seccion{padding:clamp(3rem,7vw,5rem) 0;border-bottom:1px solid var(--linea)}
+.seccion h2{font-size:clamp(1.8rem,3.6vw,2.5rem);font-weight:700}
+.seccion-banda{background:var(--banda)}
+.texto{max-width:68ch}
+.texto p{margin:0 0 1em}
+.pregunta{margin:0 0 2.75rem;padding:.1rem 0 .1rem 1.25rem;border-left:6px solid var(--acento);max-width:50ch}
+.pregunta-etq{font-size:.95rem;color:var(--suave);margin:0 0 .4rem}
+.pregunta-texto{font-family:var(--f-titulo);font-size:clamp(1.35rem,2.6vw,1.85rem);line-height:1.25;font-weight:500;margin:0}
+.objetivos{max-width:66ch;padding-left:1.4rem;margin:0}
+.objetivos li{margin-bottom:.55rem;padding-left:.25rem}
+.marco{display:grid;gap:2.5rem;max-width:68ch}
+.marco h3{margin-bottom:.45em}
+.marco p{margin:0 0 1em}
+.datos-q{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.5rem;max-width:68ch;margin:1.75rem 0}
+.datos-q dt{color:var(--suave)}
+.datos-q dd{margin:0;font-weight:700}
+.boton{display:inline-block;background:var(--principal);color:var(--sobre-principal);padding:.75rem 1.25rem;border-radius:10px;text-decoration:none;font-weight:700}
+
+/* Resultados */
+.graficos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,21rem),1fr));gap:1.5rem;margin-top:1.75rem}
+.grafico{margin:0;background:var(--superficie);border:1px solid var(--linea);border-radius:16px;padding:1.5rem}
+.grafico h3{font-size:1.15rem;margin-bottom:.25em}
+.muestra{color:var(--suave);font-size:.9rem;margin:0 0 1.25rem}
+.fila-barra{display:grid;grid-template-columns:minmax(6.5rem,40%) 1fr auto;align-items:center;gap:.75rem;margin-bottom:.7rem;font-size:.95rem;line-height:1.3}
+.barra-pista{height:.9rem;background:var(--banda);border-radius:999px;overflow:hidden}
+.barra-relleno{display:block;height:100%;background:var(--principal);border-radius:999px}
+.barra-valor{font-weight:700;font-variant-numeric:tabular-nums;min-width:3.6rem;text-align:right}
+.interpretacion{margin:1.25rem 0 0;padding-top:1rem;border-top:1px solid var(--linea);font-size:.97rem}
+
+/* Galería */
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.75rem;margin-top:1.5rem}
+.imagen{margin:0}
+.imagen img,.imagen-hueco{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:block;background:var(--banda)}
+.imagen-hueco{display:grid;place-content:center;gap:.4rem;text-align:center;padding:1.25rem;border:2px dashed var(--linea);color:var(--suave)}
+.imagen-hueco small{font-size:.82rem}
+.imagen figcaption{margin-top:.75rem;font-size:.95rem}
+.sello{display:block;width:fit-content;margin-top:.45rem;font-size:.82rem;padding:.15rem .55rem;border-radius:6px;background:var(--banda);color:var(--suave)}
+details{margin-top:.4rem}
+summary{cursor:pointer;color:var(--principal);font-size:.92rem}
+details p{font-size:.9rem;color:var(--suave);background:var(--banda);padding:.75rem;border-radius:8px;margin:.5rem 0 0}
+
+/* Vídeo y audio */
+.multimedia{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:2.25rem;margin-top:1.5rem}
+.multimedia h3{font-size:1.15rem}
+.multimedia p{margin:.75rem 0 0;font-size:.97rem}
+.video-marco{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:var(--banda)}
+.video-marco iframe{width:100%;height:100%;border:0;display:block}
+audio{width:100%}
+.hueco{border:2px dashed var(--linea);border-radius:12px;padding:1.5rem;color:var(--suave);text-align:center;font-size:.92rem}
+.hueco-video{aspect-ratio:16/9;display:grid;place-content:center}
+
+/* Bibliografía y tabla */
+.biblio{list-style:none;padding:0;margin:0;max-width:72ch}
+.biblio li{padding-left:2em;text-indent:-2em;margin-bottom:.85em}
+.tabla-scroll{overflow-x:auto;margin-top:1.5rem;border:1px solid var(--linea);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:36rem;background:var(--superficie)}
+th,td{padding:.8rem 1rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--linea)}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--f-titulo);font-size:.98rem;background:var(--banda)}
+
+.pie{padding:2.5rem 0 7rem;color:var(--suave);font-size:.92rem}
+.pie p{margin:0 0 .4rem}
+
+/* Chat */
+.boton-chat{
+  position:fixed;right:1.25rem;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));z-index:40;
+  display:flex;align-items:center;gap:.55rem;font:inherit;font-weight:700;cursor:pointer;
+  background:var(--acento);color:var(--texto-sobre-acento);border:0;border-radius:999px;
+  padding:.85rem 1.25rem .85rem 1rem;box-shadow:0 6px 22px rgba(0,0,0,.2);
+}
+.boton-chat svg{width:1.3rem;height:1.3rem;flex:none}
+.chat{
+  position:fixed;right:1.25rem;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));z-index:50;
+  width:min(25rem, calc(100vw - 2.5rem));height:min(39rem, calc(100vh - 2.5rem));
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--superficie);border:1px solid var(--linea);border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.28);
+}
+.chat.entrando{animation:entrar .22s ease-out}
+@keyframes entrar{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (max-width:560px){
+  .chat{inset:0;width:100%;height:100%;border-radius:0;border:0}
+}
+.chat-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:var(--principal);color:var(--sobre-principal)}
+.chat-cab h2{font-size:1.15rem;margin:0 0 .15rem}
+.chat-cab p{margin:0;font-size:.88rem;opacity:.85;line-height:1.35}
+.cerrar{background:transparent;border:0;color:inherit;font-size:1.7rem;line-height:1;cursor:pointer;padding:.05rem .45rem;border-radius:8px}
+.cerrar:hover{background:rgba(255,255,255,.14)}
+.chat-mensajes{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+.msg{max-width:88%;padding:.65rem .9rem;border-radius:16px;font-size:.97rem;line-height:1.5;overflow-wrap:anywhere}
+.msg-bot{align-self:flex-start;background:var(--banda);border-bottom-left-radius:4px}
+.msg-usuario{align-self:flex-end;background:var(--principal);color:var(--sobre-principal);border-bottom-right-radius:4px}
+.msg-meta{display:block;margin-top:.45rem;font-size:.8rem;color:var(--suave)}
+.escribiendo{display:flex;gap:.25rem;padding:.8rem .9rem}
+.escribiendo span{width:.45rem;height:.45rem;border-radius:50%;background:var(--suave);animation:pulso 1s infinite ease-in-out}
+.escribiendo span:nth-child(2){animation-delay:.15s}
+.escribiendo span:nth-child(3){animation-delay:.3s}
+@keyframes pulso{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.chat-sugerencias{padding:0 1rem .6rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.chat-sugerencias .chip{font-size:.87rem;padding:.4rem .7rem}
+.chat-form{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid var(--linea)}
+.chat-form input{flex:1;min-width:0;font:inherit;padding:.65rem .8rem;border:1px solid var(--linea);border-radius:10px;background:var(--fondo);color:var(--texto)}
+.chat-form button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:0 1rem;background:var(--principal);color:var(--sobre-principal);cursor:pointer}
+.chat-pie{margin:0;padding:0 .9rem .85rem;font-size:.87rem}
+
+/* Modo solo chat (para insertar en Google Sites): index.html?modo=chat */
+body.solo-chat > *:not(#chat){display:none !important}
+body.solo-chat .chat{position:static;width:100%;height:100vh;border-radius:0;border:0;box-shadow:none}
+body.solo-chat .cerrar{display:none}
+</style>
+<script>
+  // Detecta errores de escritura en el bloque CONFIG para avisar de la línea.
+  window.__erroresConfig = [];
+  window.addEventListener("error", function (e) {
+    window.__erroresConfig.push({ mensaje: e.message, linea: e.lineno });
+  });
+</script>
+</head>
+<body>
+<div id="aviso-error" role="alert" hidden></div>
+<div id="aviso-ejemplo" class="aviso-ejemplo" hidden>Esta página muestra contenido de ejemplo. Sustitúyelo por el de tu proyecto en el bloque CONFIG del archivo.</div>
+
+<header class="cabecera">
+  <div class="envoltura">
+    <a class="marca" href="#inicio"></a>
+    <nav aria-label="Secciones de la página"><ul id="menu"></ul></nav>
+  </div>
+</header>
+
+<main id="contenido"></main>
+
+<footer class="pie"><div class="envoltura" id="pie"></div></footer>
+
+<button id="abrir-chat" class="boton-chat" aria-expanded="false" aria-controls="chat">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/></svg>
+  <span>Pregunta sobre el proyecto</span>
+</button>
+
+<section id="chat" class="chat" role="dialog" aria-labelledby="chat-titulo" hidden>
+  <header class="chat-cab">
+    <div>
+      <h2 id="chat-titulo">Asistente del proyecto</h2>
+      <p id="chat-subtitulo">Responde con lo que he aprendido durante el proyecto</p>
+    </div>
+    <button class="cerrar" type="button" aria-label="Cerrar el chat">&times;</button>
+  </header>
+  <div class="chat-mensajes" aria-live="polite"></div>
+  <div class="chat-sugerencias"></div>
+  <form class="chat-form">
+    <label class="oculto" for="chat-entrada">Escribe tu pregunta</label>
+    <input id="chat-entrada" type="text" autocomplete="off" placeholder="Escribe tu pregunta" maxlength="300">
+    <button type="submit">Enviar</button>
+  </form>
+  <p class="chat-pie" hidden><a target="_blank" rel="noopener"></a></p>
+</section>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN DE TU WEB
+   ---------------------------------------------------------------------
+   Todo lo que ves en la página sale de este bloque. Reglas básicas:
+   · Cambia solo el texto que está entre comillas "así".
+   · Cada elemento de una lista termina en coma, salvo el último.
+   · Si un texto lleva comillas dentro, usa «comillas angulares».
+   · Para separar párrafos, escribe \n\n dentro del texto.
+   · Si quieres ocultar una sección entera, bórrala (o pon null).
+   · Guarda y recarga el navegador. Si algo falla, aparecerá un aviso
+     rojo arriba con el número de línea del error.
+   ===================================================================== */
+const CONFIG = {
+
+  // Aspecto: "bahia", "sierra", "violeta" o "grafito"
+  tema: "bahia",
+
+  proyecto: {
+    contenidoDeEjemplo: true,   // cámbialo a false cuando pongas tu contenido
+    contexto: "Trabajo Fin de Grado en Trabajo Social, Universidad de Cádiz",
+    titulo: "Soledad no deseada en personas mayores del medio rural",
+    tituloCorto: "Soledad no deseada en el medio rural",
+    subtitulo: "Cómo la viven, qué recursos conocen y qué puede aportar el Trabajo Social comunitario",
+    autoria: "Nombre Apellido Apellido",
+    tutoria: "Prof. Nombre Apellido",
+    curso: "2026-2027",
+    licencia: "Contenido publicado con licencia CC BY 4.0."
+  },
+
+  presentacion: {
+    pregunta: "¿Qué factores relacionan las personas mayores de mi municipio con la soledad no deseada y qué recursos comunitarios conocen para afrontarla?",
+    texto: "Este proyecto nace de mis prácticas en los servicios sociales comunitarios de un municipio rural. Allí conocí a personas mayores que vivían solas y apenas salían de casa, y me pregunté si se sentían solas o simplemente vivían solas.\n\nPara responder, he revisado la literatura sobre soledad y envejecimiento, he diseñado un cuestionario y he analizado las respuestas. Esta web reúne el proceso y los resultados.",
+    objetivos: [
+      "Distinguir entre soledad no deseada y aislamiento social en personas mayores del medio rural.",
+      "Conocer con qué frecuencia se sienten solas las personas participantes y con quién se relacionan.",
+      "Identificar qué recursos comunitarios conocen y cuáles utilizan.",
+      "Proponer líneas de intervención desde el Trabajo Social comunitario."
+    ]
+  },
+
+  marco: [
+    {
+      titulo: "Soledad y aislamiento no son lo mismo",
+      texto: "La soledad no deseada es una experiencia subjetiva: la persona siente que sus relaciones no son suficientes o no son como le gustaría (Apellido, 2024). El aislamiento social, en cambio, se refiere a la cantidad de contactos que tiene. Una persona puede vivir acompañada y sentirse sola.\n\nSustituye este texto por un resumen de tu marco teórico, con tus citas en formato APA 7."
+    },
+    {
+      titulo: "El medio rural como contexto",
+      texto: "En los municipios pequeños, la despoblación, la distancia a los servicios y la marcha de los hijos a la ciudad cambian las redes de apoyo tradicionales (Apellido y Apellido, 2023)."
+    },
+    {
+      titulo: "El papel del Trabajo Social comunitario",
+      texto: "La intervención comunitaria permite detectar situaciones de soledad, conectar a las personas con los recursos existentes y fortalecer las redes vecinales (Organismo, 2025)."
+    }
+  ],
+
+  cuestionario: {
+    descripcion: "Diseñé un cuestionario de 18 preguntas en Google Forms. Se pilotó con compañeros de clase antes de difundirlo y empieza con un consentimiento informado. Es anónimo: no recoge ningún dato que permita identificar a las personas.",
+    participantes: "48 personas de 65 años o más (datos de ejemplo)",
+    periodo: "Marzo de 2027",
+    herramienta: "Google Forms",
+    enlace: ""   // pega aquí el enlace de tu formulario, o déjalo vacío
+  },
+
+  resultados: [
+    {
+      titulo: "¿Con qué frecuencia se siente sola?",
+      muestra: "n = 48",
+      unidad: "%",
+      datos: [
+        { etiqueta: "Nunca", valor: 21 },
+        { etiqueta: "Algunas veces", valor: 44 },
+        { etiqueta: "A menudo", valor: 25 },
+        { etiqueta: "Siempre", valor: 10 }
+      ],
+      interpretacion: "Algo más de un tercio se siente sola a menudo o siempre. Es una proporción alta para un pueblo donde casi todo el mundo se conoce: conocerse no significa estar acompañado."
+    },
+    {
+      titulo: "Recursos comunitarios que conocen",
+      muestra: "n = 48. Respuesta múltiple: los porcentajes no suman 100.",
+      unidad: "%",
+      datos: [
+        { etiqueta: "Ayuda a domicilio", valor: 71 },
+        { etiqueta: "Centro de día", valor: 62 },
+        { etiqueta: "Teleasistencia", valor: 58 },
+        { etiqueta: "Asociación de mayores", valor: 46 },
+        { etiqueta: "Voluntariado", valor: 19 }
+      ],
+      interpretacion: "Los servicios más conocidos son los que ya reciben o han solicitado. El voluntariado apenas se conoce, y es el recurso que más relaciones genera. Aquí veo un espacio claro para la intervención comunitaria."
+    },
+    {
+      titulo: "¿Con quién habla a diario?",
+      muestra: "n = 48",
+      unidad: "personas",
+      datos: [
+        { etiqueta: "Familia con la que convive", valor: 17 },
+        { etiqueta: "Familia por teléfono", valor: 14 },
+        { etiqueta: "Vecindario", valor: 11 },
+        { etiqueta: "Casi nunca con nadie", valor: 6 }
+      ],
+      interpretacion: "Seis personas no hablan con nadie la mayoría de los días. Son pocas, pero son el perfil al que debería llegar primero cualquier programa."
+    }
+  ],
+
+  // Guarda las imágenes en una carpeta llamada img, junto a este archivo.
+  galeria: [
+    {
+      archivo: "img/portada.png",
+      alt: "Dos personas mayores conversan en un banco de una plaza de pueblo al atardecer",
+      pie: "Ilustración de portada.",
+      generadaConIA: true,
+      herramienta: "Gemini",
+      prompt: "Ilustración en acuarela suave: dos personas mayores conversando y riendo en un banco de la plaza de un pueblo blanco andaluz al atardecer. Expresión tranquila y digna, ropa cotidiana, sin dramatismo. Colores cálidos, sin texto."
+    },
+    {
+      archivo: "img/voluntariado.png",
+      alt: "Una mujer joven y un hombre mayor riegan juntos las macetas de un patio",
+      pie: "El voluntariado como puente entre generaciones.",
+      generadaConIA: true,
+      herramienta: "Gemini",
+      prompt: "Ilustración plana y luminosa: una mujer joven y un hombre mayor riegan juntos las macetas de un patio con azulejos. Relación de igual a igual, ambos sonríen. Sin texto."
+    },
+    {
+      archivo: "img/comparativa-sesgo.png",
+      alt: "Comparación entre la primera imagen generada, oscura y triste, y la versión final, luminosa y activa",
+      pie: "Primer resultado y versión final tras reescribir el prompt.",
+      generadaConIA: true,
+      herramienta: "Gemini",
+      prompt: "Primer intento: «una persona mayor sola». Versión final: «una mujer de 80 años lee el periódico en la puerta de su casa y saluda a una vecina que pasa, luz de mañana, estilo ilustración editorial»."
+    }
+  ],
+
+  video: {
+    titulo: "Mi proyecto en 90 segundos",
+    // Enlace de inserción. YouTube: https://www.youtube.com/embed/CODIGO
+    // Google Drive: https://drive.google.com/file/d/CODIGO/preview
+    urlInsercion: "",
+    descripcion: "Guion propio. Montaje con Google Vids a partir de mis imágenes y gráficos. Incluye subtítulos."
+  },
+
+  podcast: {
+    titulo: "Resumen en audio de mis fuentes",
+    archivo: "",   // por ejemplo "audio/resumen.mp3"
+    descripcion: "Generado con NotebookLM a partir de mis fuentes y revisado por mí. Simplifica la diferencia entre soledad y aislamiento, que explico mejor en el marco teórico."
+  },
+
+  bibliografia: [
+    "Apellido, N. (2024). Título del libro en cursiva. Editorial.",
+    "Apellido, N., y Apellido, N. (2023). Título del artículo. Nombre de la Revista, 12(3), 45-60. https://doi.org/xx.xxxx/xxxxx",
+    "Organismo. (2025). Título del informe. https://www.direccion-del-informe.es"
+  ],
+
+  declaracionIA: "He usado herramientas de inteligencia artificial como apoyo, nunca para sustituir mi trabajo. Todo el contenido ha sido revisado por mí y las imágenes generadas están identificadas. No he introducido datos de las personas participantes en ninguna herramienta de IA.",
+
+  usoIA: [
+    { herramienta: "Gemini", para: "Pedir críticas a mi borrador del marco teórico", revision: "Acepté 3 de 7 sugerencias. Rechacé las que cambiaban el sentido de mis fuentes." },
+    { herramienta: "NotebookLM", para: "Consultar mis fuentes y generar el resumen en audio", revision: "Comprobé cada afirmación en el documento original." },
+    { herramienta: "Gemini (imágenes)", para: "Ilustraciones de la galería", revision: "Descarté las imágenes con estereotipos. Cada imagen muestra su prompt." },
+    { herramienta: "Gemini en Hojas de cálculo", para: "Comparar mi tabla dinámica con la suya", revision: "Detecté que contaba las respuestas en blanco como «nunca»." }
+  ],
+
+  chatbot: {
+    /* MODO DEL CHATBOT
+       "local"  → busca en la lista «conocimiento» de más abajo. Sin IA.
+       "agente" → responde con IA a partir de tu hoja de conocimiento,
+                  a través del agente de la asignatura. El profesor te
+                  da la dirección (url) y tu código personal.
+       Si el agente no responde, el chatbot usa la búsqueda local. */
+    modo: "local",
+    agente: {
+      url: "",      // dirección del agente (termina en /exec)
+      codigo: ""    // tu código personal, por ejemplo "ts27-014"
+    },
+    avisoAgente: "Respuestas generadas con IA solo a partir de lo que he escrito durante el proyecto. Las preguntas se guardan de forma anónima para mejorarlo.",
+
+    nombre: "Asistente del proyecto",
+    subtitulo: "Responde con lo que he aprendido durante el proyecto",
+    invitacion: "Responde con lo que he escrito y aprendido durante la asignatura. Prueba con una de estas preguntas o escribe la tuya.",
+    bienvenida: "Hola. Soy el asistente de este TFG. Respondo con lo que he escrito y aprendido durante el proyecto, así que no invento respuestas. ¿Qué quieres saber?",
+    sinRespuesta: "Todavía no tengo una respuesta para eso. Prueba con otras palabras o con alguna de estas preguntas:",
+    sobreMi: "No soy una IA generativa. Busco tu pregunta entre las respuestas que el autor o autora de este proyecto ha escrito con sus propias palabras. Si no encuentro nada parecido, te lo digo en lugar de inventar.",
+    // Opcional: enlace a un cuaderno compartido de NotebookLM o a un Gem de Gemini
+    enlaceAsistente: "",
+    textoEnlaceAsistente: "Pregunta a mi cuaderno de NotebookLM",
+    sugerencias: [
+      "¿Qué es la soledad no deseada?",
+      "¿Cómo diseñaste el cuestionario?",
+      "¿Cómo has usado la IA en este proyecto?"
+    ]
+  },
+
+  /* ---------------------------------------------------------------
+     BASE DE CONOCIMIENTO DEL CHATBOT
+     Una entrada por cada cosa que has aprendido. Escríbelas con tus
+     palabras. "claves" son palabras con las que alguien podría
+     preguntarlo (sin importar tildes ni mayúsculas).
+     --------------------------------------------------------------- */
+  conocimiento: [
+    {
+      pregunta: "¿Por qué elegiste este tema?",
+      claves: ["motivo", "elegir", "tema", "eleccion", "interes", "practicas"],
+      respuesta: "Durante mis prácticas en los servicios sociales comunitarios conocí a varias personas mayores que vivían solas y apenas salían de casa. Quise entender si se sentían solas o simplemente vivían solas, porque no es lo mismo, y qué podía hacer el Trabajo Social para acompañarlas.",
+      sesion: "Sesión 1"
+    },
+    {
+      pregunta: "¿La IA puede equivocarse?",
+      claves: ["ia", "inteligencia artificial", "error", "alucinacion", "inventa", "fiable", "equivoca"],
+      respuesta: "Sí. Un modelo de lenguaje genera el texto más probable, pero no comprueba si es verdad. Por eso puede inventar datos o referencias con total seguridad: es lo que se llama alucinación. En este proyecto he comprobado en la fuente original todo lo que me proponía la IA.",
+      sesion: "Sesión 1"
+    },
+    {
+      pregunta: "¿Qué fuentes has usado?",
+      claves: ["fuentes", "bibliografia", "referencias", "dialnet", "google academico", "articulos", "libros"],
+      respuesta: "He reunido diez fuentes: artículos de revistas de Trabajo Social localizados en Dialnet y Google Académico, dos informes de organismos públicos y un libro de la biblioteca de la UCA. Las gestiono con Zotero y aparecen en la bibliografía de esta web.",
+      sesion: "Sesión 2"
+    },
+    {
+      pregunta: "¿Cómo comprobaste que las referencias existen?",
+      claves: ["comprobar", "verificar", "referencias", "citas inventadas", "zotero", "existen"],
+      respuesta: "Pedí a Gemini una bibliografía sobre mi tema sin darle fuentes y busqué cada referencia en Dialnet, Google Académico y el catálogo de la biblioteca. De ocho referencias, tres no existían y otra tenía el año y la revista cambiados. Desde entonces solo cito lo que tengo en Zotero y he leído.",
+      sesion: "Sesión 2"
+    },
+    {
+      pregunta: "¿Qué es la soledad no deseada?",
+      claves: ["soledad", "soledad no deseada", "definicion", "sentirse solo", "sentirse sola"],
+      respuesta: "Es la experiencia de sentirse solo o sola sin haberlo elegido: la persona percibe que sus relaciones no son suficientes o no son como le gustaría. Es un sentimiento subjetivo, así que alguien puede vivir acompañado y sentirse solo, o vivir solo y no sentir soledad.",
+      sesion: "Sesión 3"
+    },
+    {
+      pregunta: "¿Qué diferencia hay entre soledad y aislamiento social?",
+      claves: ["diferencia", "aislamiento", "aislamiento social", "distinguir", "aislado"],
+      respuesta: "El aislamiento social es objetivo: se mide por el número de contactos y relaciones que tiene una persona. La soledad es subjetiva: es cómo vive la persona esas relaciones. Distinguirlos fue clave para diseñar mi cuestionario, porque pregunto por las dos cosas por separado.",
+      sesion: "Sesión 3"
+    },
+    {
+      pregunta: "¿Qué papel tiene el Trabajo Social?",
+      claves: ["trabajo social", "trabajadora social", "trabajador social", "intervencion", "papel", "comunitario", "propuesta"],
+      respuesta: "Desde el Trabajo Social comunitario se puede detectar la soledad, conectar a las personas con los recursos del municipio y, sobre todo, fortalecer las redes vecinales. Mi propuesta final se centra en un programa de acompañamiento con voluntariado del propio pueblo.",
+      sesion: "Sesión 3"
+    },
+    {
+      pregunta: "¿Cómo diseñaste el cuestionario?",
+      claves: ["cuestionario", "encuesta", "diseno", "preguntas", "forms", "google forms", "instrumento", "pilotaje"],
+      respuesta: "Empecé pidiendo a Gemini una batería de preguntas y después la auditamos en parejas: eliminé preguntas sesgadas y dobles, y ajusté las escalas. El cuestionario final tiene 18 preguntas en Google Forms, se pilotó con compañeros de clase y empieza con un consentimiento informado.",
+      sesion: "Sesión 4"
+    },
+    {
+      pregunta: "¿Qué es una pregunta de doble carga?",
+      claves: ["doble carga", "pregunta doble", "doble", "pregunta sesgada", "mal formulada"],
+      respuesta: "Es una pregunta que pregunta dos cosas a la vez, por ejemplo: «¿Se siente usted solo y triste?». Si alguien se siente solo pero no triste, no sabe qué contestar. La IA me propuso varias preguntas así y las dividí en dos.",
+      sesion: "Sesión 4"
+    },
+    {
+      pregunta: "¿Cómo protegiste los datos de las personas participantes?",
+      claves: ["datos personales", "proteccion de datos", "rgpd", "anonimo", "anonimato", "privacidad", "consentimiento", "confidencialidad", "etica"],
+      respuesta: "El cuestionario es anónimo: no pide nombre, correo ni ningún dato que identifique a la persona. Antes de empezar se explica el objetivo del estudio y hay que aceptar un consentimiento informado. Además, nunca he subido las respuestas a ninguna herramienta de IA.",
+      sesion: "Sesión 4"
+    },
+    {
+      pregunta: "¿Qué es una tabla dinámica?",
+      claves: ["tabla dinamica", "tablas dinamicas", "hoja de calculo", "sheets", "excel", "resumir"],
+      respuesta: "Es una herramienta de la hoja de cálculo que resume muchos datos agrupándolos por categorías. Con ella conté, por ejemplo, cuántas personas de cada franja de edad dicen sentirse solas a menudo, sin tener que hacerlo a mano.",
+      sesion: "Sesión 5"
+    },
+    {
+      pregunta: "¿Coincidió tu análisis con el de la IA?",
+      claves: ["comparar", "coincidio", "analisis", "gemini", "recuento", "calculo", "fallo"],
+      respuesta: "Casi siempre, pero no del todo. Gemini en Hojas de cálculo calculó mal un porcentaje porque contó las respuestas en blanco como si fueran «nunca». Lo detecté porque ya había hecho el cálculo yo antes. Por eso hago primero el análisis sin IA.",
+      sesion: "Sesión 5"
+    },
+    {
+      pregunta: "¿Cuál es el resultado principal?",
+      claves: ["resultado", "resultados", "conclusion", "conclusiones", "principal", "hallazgo", "porcentaje"],
+      respuesta: "En los datos de ejemplo, un 35 % de las personas dice sentirse sola a menudo o siempre. Lo que más me llamó la atención es que conocen bien la ayuda a domicilio o la teleasistencia, pero muy pocas conocen los programas de voluntariado, que son los que más ayudan a crear relaciones.",
+      sesion: "Sesión 6"
+    },
+    {
+      pregunta: "¿Por qué usaste gráficos de barras?",
+      claves: ["grafico", "graficos", "barras", "visualizacion", "tarta", "sectores"],
+      respuesta: "Porque comparo categorías y las barras permiten ver las diferencias de un vistazo. Descarté los gráficos de sectores porque con más de cuatro categorías cuestan de leer, y en la pregunta de recursos se podían marcar varias opciones, así que los porcentajes no suman cien.",
+      sesion: "Sesión 6"
+    },
+    {
+      pregunta: "¿Qué sesgos encontraste en las imágenes generadas?",
+      claves: ["imagenes", "imagen", "sesgo", "sesgos", "estereotipo", "ilustracion", "representacion", "prompt"],
+      respuesta: "Al pedir «una persona mayor sola», casi todas las imágenes mostraban a alguien triste, en penumbra y con aspecto de abandono. Eso refuerza una imagen de la vejez como carga. Reescribí los prompts para mostrar personas activas y con dignidad, y en la galería se puede ver cada prompt.",
+      sesion: "Sesión 7"
+    },
+    {
+      pregunta: "¿Cómo hiciste el vídeo?",
+      claves: ["video", "audio", "podcast", "notebooklm", "vids", "guion", "subtitulos", "montaje"],
+      respuesta: "Escribí yo el guion, de unos 90 segundos, y lo monté con Google Vids usando mis imágenes y gráficos. Tiene subtítulos para que sea accesible. El resumen en audio lo generó NotebookLM a partir de mis fuentes y lo revisé: en su descripción indico lo que simplifica.",
+      sesion: "Sesión 8"
+    },
+    {
+      pregunta: "¿Cómo funciona este chatbot?",
+      claves: ["chatbot", "asistente", "funciona", "bot", "respondes"],
+      respuesta: "No es una IA generativa. Busca las palabras de tu pregunta entre las respuestas que he escrito yo durante la asignatura y te muestra la más parecida. Si no encuentra nada, te lo dice en lugar de inventar. Cuanto mejor he aprendido, mejor responde.",
+      sesion: "Sesión 9"
+    },
+    {
+      pregunta: "¿Cómo has usado la IA en este proyecto?",
+      claves: ["ia", "inteligencia artificial", "gemini", "uso", "usado", "herramientas", "declaracion"],
+      respuesta: "La he usado como apoyo, no para hacer el trabajo por mí: para pedir críticas a mis textos, consultar mis fuentes con NotebookLM, generar ilustraciones y comparar mis análisis. En la sección «Uso de IA» detallo cada herramienta y qué revisé yo.",
+      sesion: "Sesión 9"
+    }
+  ]
+};
+/* ===================== FIN DE LA CONFIGURACIÓN ===================== */
+</script>
+
+<script>
+/* =====================================================================
+   MOTOR DE LA PÁGINA. No es necesario modificar nada a partir de aquí.
+   ===================================================================== */
+(function () {
+  "use strict";
+
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function parrafos(t) {
+    if (!t) return "";
+    return esc(t).split(/\n\s*\n/).map(function (p) {
+      return "<p>" + p.replace(/\n/g, "<br>") + "</p>";
+    }).join("");
+  }
+  function fmt(n) { return Number(n).toLocaleString("es-ES"); }
+  function fila(etq, valor) { return valor ? "<dt>" + esc(etq) + "</dt><dd>" + esc(valor) + "</dd>" : ""; }
+  function lista(x) { return Array.isArray(x) ? x.filter(Boolean) : []; }
+
+  function mostrarError(texto) {
+    var a = $("#aviso-error");
+    a.hidden = false;
+    a.innerHTML = "<strong>La página no se ha podido montar.</strong> " + esc(texto) +
+      " Revisa el bloque de configuración: suele ser una coma que falta, unas comillas sin cerrar o un corchete de más.";
+  }
+
+  if (typeof CONFIG === "undefined") {
+    var e = (window.__erroresConfig || [])[0];
+    mostrarError(e ? "Error en la línea " + e.linea + ": " + e.mensaje + "." : "No se encuentra el bloque CONFIG.");
+    return;
+  }
+
+  /* --------------------------- PÁGINA --------------------------- */
+  function montarPagina(C) {
+    var P = C.proyecto || {};
+    document.documentElement.setAttribute("data-tema", C.tema || "bahia");
+    document.title = P.titulo || "Mi proyecto de TFG";
+    $(".marca").textContent = P.tituloCorto || P.titulo || "Mi proyecto";
+    if (P.contenidoDeEjemplo) $("#aviso-ejemplo").hidden = false;
+
+    var nav = [];
+    var html = "";
+
+    function seccion(id, titulo, cuerpo, clase) {
+      nav.push({ id: id, titulo: titulo });
+      return '<section id="' + id + '" class="seccion ' + (clase || "") + '" aria-labelledby="t-' + id + '">' +
+        '<div class="envoltura"><h2 id="t-' + id + '">' + esc(titulo) + "</h2>" + cuerpo + "</div></section>";
+    }
+
+    // Portada
+    var sug = lista((C.chatbot || {}).sugerencias).slice(0, 3);
+    html += '<section class="portada" id="inicio"><div class="envoltura portada-rejilla"><div>' +
+      (P.contexto ? '<p class="portada-contexto">' + esc(P.contexto) + "</p>" : "") +
+      "<h1>" + esc(P.titulo) + "</h1>" +
+      (P.subtitulo ? '<p class="portada-sub">' + esc(P.subtitulo) + "</p>" : "") +
+      '<dl class="ficha">' + fila("Autoría", P.autoria) + fila("Tutoría", P.tutoria) + fila("Curso", P.curso) + "</dl></div>" +
+      (sug.length && (lista(C.conocimiento).length || agenteActivo(C)) ?
+        '<aside class="portada-chat" aria-label="Preguntas al proyecto">' +
+        '<p class="portada-chat-titulo">Pregúntale a este proyecto</p>' +
+        '<p class="portada-chat-texto">' + esc(C.chatbot.invitacion || "") + "</p>" +
+        '<div class="chips">' + sug.map(function (s) {
+          return '<button type="button" class="chip chip-acento" data-pregunta="' + esc(s) + '">' + esc(s) + "</button>";
+        }).join("") + "</div></aside>" : "") +
+      "</div></section>";
+
+    // El proyecto
+    var pr = C.presentacion;
+    if (pr) {
+      html += seccion("proyecto", "El proyecto",
+        (pr.pregunta ? '<blockquote class="pregunta"><p class="pregunta-etq">Pregunta de investigación</p><p class="pregunta-texto">' + esc(pr.pregunta) + "</p></blockquote>" : "") +
+        '<div class="texto">' + parrafos(pr.texto) + "</div>" +
+        (lista(pr.objetivos).length ? "<h3>Objetivos</h3><ol class=\"objetivos\">" + lista(pr.objetivos).map(function (o) { return "<li>" + esc(o) + "</li>"; }).join("") + "</ol>" : ""));
+    }
+
+    // Marco teórico
+    if (lista(C.marco).length) {
+      html += seccion("marco", "Marco teórico", '<div class="marco">' + lista(C.marco).map(function (b) {
+        return "<div>" + (b.titulo ? "<h3>" + esc(b.titulo) + "</h3>" : "") + parrafos(b.texto) + "</div>";
+      }).join("") + "</div>");
+    }
+
+    // Cuestionario
+    var q = C.cuestionario;
+    if (q) {
+      html += seccion("cuestionario", "El cuestionario",
+        '<div class="texto">' + parrafos(q.descripcion) + "</div>" +
+        '<dl class="datos-q">' + fila("Participantes", q.participantes) + fila("Periodo de recogida", q.periodo) + fila("Herramienta", q.herramienta) + "</dl>" +
+        (q.enlace ? '<p><a class="boton" href="' + esc(q.enlace) + '" target="_blank" rel="noopener">Abrir el cuestionario</a></p>' : ""));
+    }
+
+    // Resultados
+    if (lista(C.resultados).length) {
+      html += seccion("resultados", "Resultados",
+        '<div class="graficos">' + lista(C.resultados).map(grafico).join("") + "</div>", "seccion-banda");
+    }
+
+    // Galería
+    if (lista(C.galeria).length) {
+      html += seccion("galeria", "Imágenes", '<div class="galeria">' + lista(C.galeria).map(function (im) {
+        return '<figure class="imagen">' +
+          (im.archivo ? '<img src="' + esc(im.archivo) + '" alt="' + esc(im.alt) + '" loading="lazy">' : "") +
+          '<div class="imagen-hueco"' + (im.archivo ? " hidden" : "") + "><span>" + esc(im.alt || "Imagen pendiente") + "</span>" +
+          "<small>Guarda el archivo en la carpeta img y escribe su nombre en CONFIG</small></div>" +
+          "<figcaption>" + esc(im.pie) +
+          (im.generadaConIA ? '<span class="sello">Imagen generada con IA' + (im.herramienta ? " (" + esc(im.herramienta) + ")" : "") + "</span>" : "") +
+          (im.prompt ? "<details><summary>Ver el prompt utilizado</summary><p>" + esc(im.prompt) + "</p></details>" : "") +
+          "</figcaption></figure>";
+      }).join("") + "</div>");
+    }
+
+    // Vídeo y audio
+    var v = C.video, a = C.podcast;
+    if (v || a) {
+      var mm = "";
+      if (v) {
+        mm += "<div><h3>" + esc(v.titulo || "Vídeo") + "</h3>" +
+          (v.urlInsercion ?
+            '<div class="video-marco"><iframe src="' + esc(v.urlInsercion) + '" title="' + esc(v.titulo || "Vídeo del proyecto") + '" allowfullscreen loading="lazy"></iframe></div>' :
+            '<div class="hueco hueco-video">Pega el enlace de inserción de tu vídeo en CONFIG, en video.urlInsercion</div>') +
+          (v.descripcion ? "<p>" + esc(v.descripcion) + "</p>" : "") + "</div>";
+      }
+      if (a) {
+        mm += "<div><h3>" + esc(a.titulo || "Audio") + "</h3>" +
+          (a.archivo ?
+            '<audio controls preload="none" src="' + esc(a.archivo) + '"></audio>' :
+            '<div class="hueco">Guarda el audio en la carpeta audio y escribe su nombre en CONFIG, en podcast.archivo</div>') +
+          (a.descripcion ? "<p>" + esc(a.descripcion) + "</p>" : "") + "</div>";
+      }
+      html += seccion("multimedia", "Vídeo y audio", '<div class="multimedia">' + mm + "</div>");
+    }
+
+    // Bibliografía
+    if (lista(C.bibliografia).length) {
+      html += seccion("bibliografia", "Bibliografía", '<ul class="biblio">' +
+        lista(C.bibliografia).map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") + "</ul>");
+    }
+
+    // Uso de IA
+    if (C.declaracionIA || lista(C.usoIA).length) {
+      html += seccion("uso-ia", "Uso de IA",
+        '<div class="texto">' + parrafos(C.declaracionIA) + "</div>" +
+        (lista(C.usoIA).length ?
+          '<div class="tabla-scroll"><table><thead><tr><th scope="col">Herramienta</th><th scope="col">Para qué la usé</th><th scope="col">Qué revisé o cambié yo</th></tr></thead><tbody>' +
+          lista(C.usoIA).map(function (u) {
+            return "<tr><td>" + esc(u.herramienta) + "</td><td>" + esc(u.para) + "</td><td>" + esc(u.revision) + "</td></tr>";
+          }).join("") + "</tbody></table></div>" : ""));
+    }
+
+    $("#contenido").innerHTML = html;
+    $("#menu").innerHTML = nav.map(function (n) {
+      return '<li><a href="#' + n.id + '">' + esc(n.titulo) + "</a></li>";
+    }).join("");
+
+    $("#pie").innerHTML =
+      (P.autoria ? "<p>" + esc(P.autoria) + (P.curso ? ", " + esc(P.curso) : "") + ".</p>" : "") +
+      (P.licencia ? "<p>" + esc(P.licencia) + "</p>" : "") +
+      "<p>Web creada con la plantilla de la asignatura Informática para el Trabajo Social.</p>";
+
+    // Si una imagen no se encuentra, se muestra el hueco con instrucciones
+    document.querySelectorAll(".imagen img").forEach(function (img) {
+      img.addEventListener("error", function () {
+        img.hidden = true;
+        if (img.nextElementSibling) img.nextElementSibling.hidden = false;
+      });
+    });
+  }
+
+  function grafico(g) {
+    var datos = lista(g.datos);
+    var unidad = (g.unidad || "").trim();
+    var esPct = unidad === "%";
+    var max = esPct ? 100 : Math.max.apply(null, datos.map(function (d) { return +d.valor || 0; }).concat([1]));
+    var filas = datos.map(function (d) {
+      var val = +d.valor || 0;
+      var ancho = Math.max(0, Math.min(100, val / max * 100));
+      var sufijo = unidad ? (esPct ? " %" : " " + unidad) : "";
+      return '<div class="fila-barra"><span>' + esc(d.etiqueta) + "</span>" +
+        '<span class="barra-pista" aria-hidden="true"><span class="barra-relleno" style="width:' + ancho.toFixed(1) + '%"></span></span>' +
+        '<span class="barra-valor">' + fmt(val) + esc(sufijo) + "</span></div>";
+    }).join("");
+    return '<figure class="grafico"><figcaption><h3>' + esc(g.titulo) + "</h3>" +
+      (g.muestra ? '<p class="muestra">' + esc(g.muestra) + "</p>" : "") + "</figcaption>" +
+      filas + (g.interpretacion ? '<p class="interpretacion">' + esc(g.interpretacion) + "</p>" : "") + "</figure>";
+  }
+
+  /* ---------------------------- CHATBOT ---------------------------- */
+  // Palabras vacías que no ayudan a encontrar la respuesta
+  var VACIAS = new Set(("a al algo algun alguna ante antes asi aun como con contra cual cuales cuando de del desde donde dos el ella " +
+    "ellas ellos en entre era eres es esa ese eso esta este esto estos estas fue ha has hay la las le les lo los mas me mi mis " +
+    "muy ni no nos o os para pero por porque que quien se ser si sin sobre son su sus tambien te tiene tu tus un una unas uno " +
+    "unos y ya yo hace hacer hiciste puedes puede podrias dime decir explica explicame cuentame sabes saber quiero querria " +
+    "has habeis hay tienes tener vale oye gustaria").split(/\s+/));
+
+  function normalizar(t) {
+    return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9\s]/g, " ");
+  }
+  function raiz(p) {
+    if (p.length > 4) p = p.replace(/(es|s)$/, "");
+    return p.length > 6 ? p.slice(0, 6) : p;
+  }
+  function tokens(t) {
+    return normalizar(t).split(/\s+/).filter(function (p) {
+      return p.length > 1 && !VACIAS.has(p);
+    }).map(raiz);
+  }
+
+  function construirIndice(base) {
+    var docs = base.map(function (e) {
+      var pesos = new Map();
+      function sumar(texto, peso) {
+        tokens(texto).forEach(function (t) { pesos.set(t, Math.max(pesos.get(t) || 0, peso)); });
+      }
+      sumar(e.respuesta, 1);
+      sumar(e.pregunta, 2);
+      lista(e.claves).forEach(function (k) { sumar(k, 3); });
+      return { e: e, pesos: pesos };
+    });
+    var df = new Map();
+    docs.forEach(function (d) { d.pesos.forEach(function (_, t) { df.set(t, (df.get(t) || 0) + 1); }); });
+    var N = docs.length || 1;
+    return {
+      docs: docs,
+      idf: function (t) { return Math.log(1 + N / (df.get(t) || N)); }
+    };
+  }
+
+  function agenteActivo(C) {
+    var cb = C.chatbot || {};
+    return cb.modo === "agente" && !!cb.agente && !!cb.agente.url && !!cb.agente.codigo;
+  }
+
+  function iniciarChat(C) {
+    var cb = C.chatbot || {};
+    var base = lista(C.conocimiento).filter(function (e) { return e.pregunta && e.respuesta; });
+    var panel = $("#chat"), boton = $("#abrir-chat"), mensajes = $(".chat-mensajes"),
+      sugerencias = $(".chat-sugerencias"), form = $(".chat-form"), entrada = $("#chat-entrada");
+    var usarAgente = agenteActivo(C);
+    var historial = [];
+
+    if (!base.length && !usarAgente) { boton.hidden = true; return; }
+
+    $("#chat-titulo").textContent = cb.nombre || "Asistente del proyecto";
+    if (cb.subtitulo) $("#chat-subtitulo").textContent = cb.subtitulo;
+    if (cb.enlaceAsistente) {
+      var pie = $(".chat-pie");
+      pie.hidden = false;
+      pie.querySelector("a").href = cb.enlaceAsistente;
+      pie.querySelector("a").textContent = cb.textoEnlaceAsistente || "Pregunta a mi asistente de IA";
+    }
+
+    var indice = construirIndice(base);
+    var UMBRAL = 1.8;
+    var reducido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var saludado = false;
+    var soloChat = new URLSearchParams(location.search).get("modo") === "chat";
+
+    function buscar(texto) {
+      var q = Array.from(new Set(tokens(texto)));
+      if (!q.length) return [];
+      return indice.docs.map(function (d) {
+        var puntos = 0;
+        q.forEach(function (t) {
+          if (d.pesos.has(t)) {
+            puntos += d.pesos.get(t) * indice.idf(t);
+          } else if (t.length >= 4) {
+            var mejor = 0;
+            d.pesos.forEach(function (w, k) {
+              if (k.length >= 4 && (k.indexOf(t) === 0 || t.indexOf(k) === 0)) mejor = Math.max(mejor, w * indice.idf(k));
+            });
+            puntos += mejor * 0.5;
+          }
+        });
+        return { e: d.e, puntos: puntos / Math.sqrt(q.length) };
+      }).filter(function (r) { return r.puntos > 0; })
+        .sort(function (x, y) { return y.puntos - x.puntos; });
+    }
+
+    function aleatorias(n, excluir) {
+      var p = base.filter(function (e) { return e !== excluir; }).map(function (e) { return e.pregunta; });
+      for (var i = p.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = p[i]; p[i] = p[j]; p[j] = tmp; }
+      return p.slice(0, n);
+    }
+
+    function burbuja(texto, quien, meta) {
+      var d = document.createElement("div");
+      d.className = "msg msg-" + quien;
+      d.innerHTML = esc(texto).replace(/\n/g, "<br>") + (meta ? '<span class="msg-meta">' + esc(meta) + "</span>" : "");
+      mensajes.appendChild(d);
+      mensajes.scrollTop = mensajes.scrollHeight;
+    }
+
+    function pintarSugerencias(preguntas) {
+      sugerencias.innerHTML = "";
+      preguntas.forEach(function (p) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip";
+        b.textContent = p;
+        b.addEventListener("click", function () { preguntar(p); });
+        sugerencias.appendChild(b);
+      });
+    }
+
+    function responder(texto) {
+      var n = normalizar(texto).trim().replace(/\s+/g, " ");
+      var palabras = n.split(" ").length;
+      if (/^(hola|buenas|buenos dias|buenas tardes|buenas noches|hey|saludos)\b/.test(n) && palabras <= 3) {
+        burbuja("¡Hola! Pregúntame lo que quieras sobre este proyecto.", "bot");
+        pintarSugerencias(aleatorias(3));
+        return;
+      }
+      if (/\b(gracias|genial|perfecto|estupendo)\b/.test(n) && palabras <= 4) {
+        burbuja("De nada. Si quieres, sigue preguntando.", "bot");
+        pintarSugerencias(aleatorias(3));
+        return;
+      }
+      if (/\b(quien eres|que eres|como funcionas|eres una ia|eres un robot)\b/.test(n)) {
+        burbuja(cb.sobreMi || "Respondo con lo que el autor o autora de este proyecto ha escrito.", "bot");
+        pintarSugerencias(aleatorias(3));
+        return;
+      }
+
+      var res = buscar(texto);
+      if (!res.length || res[0].puntos < UMBRAL) {
+        burbuja(cb.sinRespuesta || "Todavía no tengo una respuesta para eso. Prueba con alguna de estas preguntas:", "bot");
+        var cercanas = res.slice(0, 3).map(function (r) { return r.e.pregunta; });
+        pintarSugerencias(cercanas.length ? cercanas : aleatorias(3));
+        return;
+      }
+
+      var mejor = res[0];
+      var meta = [mejor.e.sesion ? "Aprendido en la " + mejor.e.sesion.charAt(0).toLowerCase() + mejor.e.sesion.slice(1) : "",
+        mejor.e.fuente ? "Fuente: " + mejor.e.fuente : ""].filter(Boolean).join(". ");
+      burbuja(mejor.e.respuesta, "bot", meta);
+      var relacionadas = res.slice(1).filter(function (r) {
+        return r.puntos >= mejor.puntos * 0.5 && r.puntos >= UMBRAL * 0.6;
+      }).slice(0, 2).map(function (r) { return r.e.pregunta; });
+      pintarSugerencias(relacionadas.length ? relacionadas : aleatorias(2, mejor.e));
+    }
+
+    function preguntar(texto) {
+      texto = String(texto || "").trim();
+      if (!texto) return;
+      burbuja(texto, "usuario");
+      entrada.value = "";
+      sugerencias.innerHTML = "";
+      var t = document.createElement("div");
+      t.className = "msg msg-bot escribiendo";
+      t.setAttribute("aria-hidden", "true");
+      t.innerHTML = "<span></span><span></span><span></span>";
+      mensajes.appendChild(t);
+      mensajes.scrollTop = mensajes.scrollHeight;
+      entrada.disabled = true;
+      function terminar(fn) { t.remove(); entrada.disabled = false; fn(); }
+
+      if (usarAgente) {
+        consultarAgente(texto)
+          .then(function (r) { terminar(function () { mostrarAgente(r, texto); }); })
+          .catch(function (err) { terminar(function () { falloAgente(err, texto); }); });
+      } else {
+        setTimeout(function () { terminar(function () { responder(texto); }); }, reducido ? 120 : 420 + Math.random() * 380);
+      }
+    }
+
+    /* ---- Conexión con el agente de la asignatura (Google Apps Script) ---- */
+    var ERRORES_AGENTE = {
+      codigo_no_valido: "El código del agente no es válido o está desactivado. Revisa chatbot.agente.codigo en CONFIG.",
+      sin_conocimiento: "El agente no puede leer la hoja de conocimiento o está vacía.",
+      limite: "Se ha alcanzado el límite de preguntas por hora.",
+      limite_gemini: "El servicio de IA está saturado en este momento.",
+      faltan_datos: "La pregunta no ha llegado completa al agente."
+    };
+
+    function consultarAgente(texto) {
+      var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var reloj = setTimeout(function () { if (ctrl) ctrl.abort(); }, 30000);
+      return fetch(cb.agente.url, {
+        method: "POST",
+        // text/plain evita la comprobación previa de CORS que Apps Script no admite
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ codigo: cb.agente.codigo, pregunta: texto, historial: historial.slice(-8) }),
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function (r) {
+        clearTimeout(reloj);
+        if (!r.ok) throw new Error("http_" + r.status);
+        return r.json();
+      }, function (err) { clearTimeout(reloj); throw err; });
+    }
+
+    function mostrarAgente(r, texto) {
+      if (!r || !r.ok) { falloAgente(new Error(r && r.error), texto, r && ERRORES_AGENTE[r.error]); return; }
+      var sesiones = lista(r.sesiones);
+      var meta = "Respuesta generada con IA" + (sesiones.length ? " a partir de lo aprendido en: " + sesiones.join(", ") : "");
+      burbuja(r.respuesta, "bot", meta);
+      historial.push({ rol: "usuario", texto: texto }, { rol: "bot", texto: r.respuesta });
+      var sug = r.encontrada ? aleatorias(2) : (lista(cb.sugerencias).length ? lista(cb.sugerencias) : aleatorias(3));
+      pintarSugerencias(sug);
+    }
+
+    function falloAgente(err, texto, mensaje) {
+      console.warn("Agente no disponible:", err);
+      var aviso = mensaje || "El asistente con IA no responde ahora.";
+      if (base.length) {
+        burbuja(aviso + " Te respondo con la búsqueda local.", "bot");
+        responder(texto);
+      } else {
+        burbuja(aviso + " Inténtalo de nuevo en unos minutos.", "bot");
+        pintarSugerencias(lista(cb.sugerencias));
+      }
+    }
+
+    function abrir(preguntaInicial) {
+      panel.hidden = false;
+      if (!reducido && !soloChat) {
+        panel.classList.remove("entrando"); void panel.offsetWidth; panel.classList.add("entrando");
+      }
+      boton.setAttribute("aria-expanded", "true");
+      boton.hidden = true;
+      if (!saludado) {
+        burbuja(cb.bienvenida || "Hola. ¿Qué quieres saber de este proyecto?", "bot", usarAgente ? cb.avisoAgente : "");
+        pintarSugerencias(lista(cb.sugerencias).length ? lista(cb.sugerencias) : aleatorias(3));
+        saludado = true;
+      }
+      if (preguntaInicial) preguntar(preguntaInicial);
+      else entrada.focus();
+    }
+
+    function cerrar() {
+      if (soloChat) return;
+      panel.hidden = true;
+      boton.hidden = false;
+      boton.setAttribute("aria-expanded", "false");
+      boton.focus();
+    }
+
+    boton.addEventListener("click", function () { abrir(); });
+    $(".cerrar").addEventListener("click", cerrar);
+    document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && !panel.hidden) cerrar(); });
+    form.addEventListener("submit", function (ev) { ev.preventDefault(); preguntar(entrada.value); });
+    document.querySelectorAll("[data-pregunta]").forEach(function (b) {
+      b.addEventListener("click", function () { abrir(b.getAttribute("data-pregunta")); });
+    });
+
+    if (soloChat) {
+      document.body.classList.add("solo-chat");
+      abrir();
+    }
+  }
+
+  /* --------------------------- ARRANQUE --------------------------- */
+  try {
+    montarPagina(CONFIG);
+    iniciarChat(CONFIG);
+  } catch (err) {
+    console.error(err);
+    mostrarError("Detalle técnico: " + err.message + ".");
+  }
+})();
+</script>
+</body>
+</html>
